@@ -1,29 +1,30 @@
 import { useState } from "react";
 
-export const Checkbox = ({ title, children }) => {
+export const Checkbox = ({ title, children, updateFilter, categoryId }) => {
   const [isChecked, setIsChecked] = useState(false);
 
-  const CheckboxHandler = (e) => {
+  const handleCheck = (e) => {
     if (e.target.checked) {
+      updateFilter("add", categoryId);
       setIsChecked(true);
     } else {
+      updateFilter("remove", categoryId);
       setIsChecked(false);
     }
   };
 
   return (
-    <div>
+    <div className="flex items-center">
       <label
         className={`${
           isChecked
             ? "font-bold hover:text-[#0654ba]"
             : "font-[400] hover:text-black"
-        } text-[smaller] tracking-[.025em] leading-[1.6] text-[#252d3a] flex gap-1 cursor-pointer transition-[.3s]`}
-      >
+        } text-[smaller] tracking-[.025em] leading-[15px] text-[#252d3a] flex gap-1 cursor-pointer transition-[.3s]`}>
         <input
           type="checkbox"
           className="appearance-none"
-          onClick={CheckboxHandler}
+          onClick={handleCheck}
         />
         {title}
         {children}

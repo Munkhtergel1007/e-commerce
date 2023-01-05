@@ -23,7 +23,8 @@ import Button from "../Components/button";
 import { Footer } from "../Components/footer";
 import { BannerTitle } from "../Components/bannerTitle";
 
-export default function Home() {
+const HomePage = () =>  {
+  
   return (
     <div className="overflow-x-hidden">
       <Head>
@@ -176,3 +177,4 @@ export default function Home() {
     </div>
   );
 }
+export default HomePage;

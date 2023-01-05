@@ -11,14 +11,12 @@ export const MainClothCard = ({ img, content, price }) => {
             <div className="border-[3px] border-[#edf1f4] rounded-xl">
               <Image src={TestImage} alt="" />
             </div>
-            <div>
               <h1 className="text-[14px] font-[500] text-[#252d3a]">
                 {content}
               </h1>
               <span className="text-[12px] md:text-[14px] font-[500] text-[#252d3a]">
                 {price}
               </span>
-            </div>
           </div>
         </a>
       </Link>

@@ -1,19 +1,23 @@
+import axios from "axios";
+import Head from "next/head";
 import { useRouter } from "next/router";
+
+import Header from "../../Components/header";
 import Container from "../../Components/container";
 import { Footer } from "../../Components/footer";
-import Header from "../../Components/header";
 import { Filter } from "../../Components/filter";
 import { ClothCard } from "../../Components/clothCard";
+import { SortButton } from "../../Components/sortButton";
 import { SideFilterHeader } from "../../Components/sideFilterHeader";
 
-import { ClothCardData } from "../../dummyData/clothCard";
-import { FilterData } from "../../dummyData/filter";
-import { SortButton } from "../../Components/sortButton";
-import Head from "next/head";
+import useGetProducst from "../../hooks/useGetProducst";
+import useGetCategories from "../../hooks/useGetCategory";
 
 const Gender = () => {
   const router = useRouter();
   const { type } = router.query;
+  const { loading, product, updateFilter } = useGetProducst();
+  const { data: categories, loading: catLoading } = useGetCategories();
 
   return (
     <>
@@ -30,8 +34,7 @@ const Gender = () => {
           <div
             className={`bg-[#F2E7E2] relative pt-[30px] pb-[45px] ${
               type === "women" ? "after:bg-[#AF5731]" : "after:bg-[#3B4859]"
-            }  after:absolute after:w-[110%] after:h-[130%] after:left-[-5%] after:top-[-30%] after:rotate-[-1deg]`}
-          >
+            }  after:absolute after:w-[110%] after:h-[130%] after:left-[-5%] after:top-[-30%] after:rotate-[-1deg]`}>
             <Container>
               <div className="relative z-10">
                 <h1 className="tracking-[.02em] font-bold md:text-[35px] leading-[40px] text-white text-center">
@@ -49,13 +52,17 @@ const Gender = () => {
           <div className="mt-7"></div>
           <div className="flex gap-4">
             <div className="hidden md:block pt-[1em] w-3/12">
-              {FilterData.map((data, index) => (
-                <SideFilterHeader
-                  key={index}
-                  title={data.title}
-                  data={data.content}
-                />
-              ))}
+              {catLoading && <>Loading...</>}
+              {categories?.map((cat, index) => {
+                return (
+                  <SideFilterHeader
+                    key={index}
+                    title={cat?.name}
+                    childrenCategories={cat?.childrenCategories ?? []}
+                    updateFilter={updateFilter}
+                  />
+                );
+              })}
             </div>
             <div className="w-full">
               <div className="after:flex after:h-[5px] after:w-full after:border-b after:border-[#ccc] px-5 md:px-0">
@@ -68,17 +75,18 @@ const Gender = () => {
                 </div>
                 <div>
                   <span className="uppercase text-left text-[#252d3a] font-medium text-[13.6px] md:text-[16px] md:leading-[1.6]">
-                    20000 results
+                    {product.length} results
                   </span>
                 </div>
               </div>
               <div className="flex flex-wrap mt-0 md:mt-7 mb-16">
-                {ClothCardData.map((data, index) => (
+                {loading && <>Loading...</>}
+                {product?.map((data, index) => (
                   <ClothCard
                     img={data.img}
                     title={data.title}
                     price={data.price}
-                    href={data.href}
+                    // href={data.href}
                     key={index}
                   />
                 ))}

@@ -59,7 +59,7 @@ export default function Login() {
                 <TextInput id="emailInput" title="Email" />
               </div>
               <div>
-                <TextInput id={password} title="Password" />
+                <TextInput id="password" title="Password" />
               </div>
               <div className="w-full">
                 <div className="mb-4 w-full">
