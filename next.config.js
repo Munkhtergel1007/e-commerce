@@ -5,7 +5,7 @@ const nextConfig = {
 
 module.exports = {
   images: {
-    domains: ["cdn.shopify.com"],
+    domains: ["cdn.shopify.com", "cdnp.cody.mn"],
   },
   nextConfig,
 };
