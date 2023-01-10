@@ -34,7 +34,8 @@ const Gender = () => {
           <div
             className={`bg-[#F2E7E2] relative pt-[30px] pb-[45px] ${
               type === "women" ? "after:bg-[#AF5731]" : "after:bg-[#3B4859]"
-            }  after:absolute after:w-[110%] after:h-[130%] after:left-[-5%] after:top-[-30%] after:rotate-[-1deg]`}>
+            }  after:absolute after:w-[110%] after:h-[130%] after:left-[-5%] after:top-[-30%] after:rotate-[-1deg]`}
+          >
             <Container>
               <div className="relative z-10">
                 <h1 className="tracking-[.02em] font-bold md:text-[35px] leading-[40px] text-white text-center">

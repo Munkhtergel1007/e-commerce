@@ -34,7 +34,7 @@ export const ClothCard = ({ img, title, price, href }) => {
           </Link>
         </div>
         <button
-          className="absolute top-1 right-1 text-xl p-5 bg-[rgba(255,255,255,.8)] cursor-pointer flex justify-center items-center before:absolute before:top-[11px] before:right-[12px] before:rounded-full before:w-[calc(100%-24px)] before:h-[calc(100%-24px)] before:bg-[#f2e7e2] before:z-0"
+          className="absolute top-1 right-1 text-xl p-5 bg-[transparent] cursor-pointer flex justify-center items-center before:absolute before:top-[11px] before:right-[12px] before:rounded-full before:w-[calc(100%-24px)] before:h-[calc(100%-24px)] before:bg-[#f2e7e2] before:z-0"
           onClick={() => setIsHeartCLicked(!isHeartCLicked)}
         >
           <span className="relative z-10 text-[#d76a3b]">
