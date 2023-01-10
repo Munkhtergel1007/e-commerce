@@ -71,23 +71,11 @@ export default function Login() {
 
     await API.post(account === "register" ? "/register" : "/login", object)
       .then((result) => {
-        console.log(result);
-
-        if (!result.data.success) {
-          toast.error("Алдаа гарлаа.");
-          return;
-        }
-        setToken(result.data.token);
+        const user = jwt(result.data.token);
       })
       .catch((err) => {
         console.log(err.message);
       });
-
-    const decode = jwt(token);
-
-    cookies.set("jwt_authorization", token, {
-      expires: new Date(decode.exp * 1000),
-    });
   };
 
   return (
