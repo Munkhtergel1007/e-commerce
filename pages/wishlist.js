@@ -4,8 +4,12 @@ import Link from "next/link";
 import Container from "../Components/container";
 import Header from "../Components/header";
 import Image from "next/image";
+import { useContext } from "react";
+import { FavContext } from "../context/FavContext";
 
 export default function WishList() {
+  const favourite = useContext(FavContext);
+  console.log(favourite);
   return (
     <>
       <Head>

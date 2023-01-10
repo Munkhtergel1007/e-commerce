@@ -18,7 +18,7 @@ export const ProductDesc = ({
         {color && sku && material ? (
           <>
             <h1 className="font-medium text-[16px] leading-[30px] tracking-[.02em] text-[#262e39] text-center">
-              Colour: {color}
+              Color: {color}
             </h1>
             <h1 className="font-medium text-[16px] leading-[30px] tracking-[.02em] text-[#262e39] text-center">
               Material: {material}

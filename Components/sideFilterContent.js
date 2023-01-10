@@ -1,6 +1,11 @@
 import { Checkbox } from "./checkbox";
 
-export const SideFilterContent = ({ title, updateFilter, categoryId }) => {
+export const SideFilterContent = ({
+  title,
+  updateFilter,
+  categoryId,
+  parentTitle,
+}) => {
   return (
     <div>
       <div className="rounded-[10px] py-1 px-2 border border-[#ccc] m-1 bg-transparent block md:hidden">
@@ -11,6 +16,7 @@ export const SideFilterContent = ({ title, updateFilter, categoryId }) => {
       <a className="pb-[.6em] d-flex">
         <Checkbox
           title={title}
+          parentTitle={parentTitle}
           updateFilter={updateFilter}
           categoryId={categoryId}>
           <span className="font-[400] text-[1em] initial text-[#ccc] mt-4"></span>

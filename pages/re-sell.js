@@ -3,10 +3,15 @@ import { Checkbox } from "../Components/checkbox";
 import Container from "../Components/container";
 import { Footer } from "../Components/footer";
 import Header from "../Components/header";
+import { ReSellCheckBox } from "../Components/resellCheckBox";
 import { TextInput } from "../Components/textInput";
 import { FilterData } from "../dummyData/filter";
+import useGetDepartment from "../hooks/useDepartment";
+import useGetCategories from "../hooks/useGetCategory";
 
 const ReSell = () => {
+  const { data: department, loading: depLoading } = useGetDepartment();
+  const { data: categories, loading: catLoading } = useGetCategories();
   return (
     <>
       <Head>
@@ -30,11 +35,12 @@ const ReSell = () => {
               </div>
               <div className="mb-8">
                 <h1 className="uppercase text-[.75em] md:text-[12px] tracking-[.3em] mb-2 font-medium block w-full">
-                  Type
+                  Department
                 </h1>
                 <div className="flex gap-4 flex-wrap">
-                  <Checkbox title="Men" />
-                  <Checkbox title="Women" />
+                  {department?.map((el, index) => (
+                    <ReSellCheckBox title={el.name} key={index} age={"row1"} />
+                  ))}
                 </div>
               </div>
               <div className="mb-8">
@@ -42,11 +48,13 @@ const ReSell = () => {
                   Category
                 </h1>
                 <div className="flex gap-4 flex-wrap">
-                  {FilterData.map((data) =>
-                    data.content.map((content, index) => (
-                      <Checkbox title={content} key={index} />
-                    ))
-                  )}
+                  {categories?.map((data, index) => (
+                    <ReSellCheckBox
+                      title={data.name}
+                      key={index}
+                      age={"row2"}
+                    />
+                  ))}
                 </div>
               </div>
               <div>

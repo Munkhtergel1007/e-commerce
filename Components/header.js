@@ -13,12 +13,17 @@ import darkLogo from "../public/img/Thrift_Logo_Dark.svg";
 import whiteLogo from "../public/img/Thrift_Logo_Boutique_white.svg";
 import Container from "./container";
 import Link from "next/link";
+import useGetDepartment from "../hooks/useDepartment";
+import useGetProducst from "../hooks/useGetProducst";
+import { Loading } from "./Loading";
 
 export default function Header({ normal, className, noExtraNav, extraNavBg }) {
   const [fixed, setFixed] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [menuOpened, setMenuOpened] = useState(false);
   const [extraMenuOpened, setExtraMenuOpened] = useState(false);
+
+  const { data: department, loading: depLoading } = useGetDepartment();
 
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -45,8 +50,8 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
           fixed ? `header--opening ${normal ? "bg-[#252d3a]" : "def"}` : ""
         } ${
           normal ? "bg-[#252d3a] shadow-sm" : "bg-white md:bg-transparent"
-        } top-0 left-0 w-full z-30 header`}
-      >
+        } top-0 left-0 w-full z-30 header`}>
+        {depLoading && <Loading />}
         <Container>
           <div className="flex items-center h-[70px] justify-between px-0">
             <div className="block md:hidden">
@@ -54,8 +59,7 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
                 className={`${
                   normal ? "text-white" : ""
                 } text-2xl cursor-pointer`}
-                onClick={() => setMenuOpened(true)}
-              >
+                onClick={() => setMenuOpened(true)}>
                 <HiMenuAlt2 />
               </span>
             </div>
@@ -74,38 +78,30 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
             </div>
             <div className="hidden md:block">
               <ul className="flex">
+                {}
                 <li
                   className={`${
                     normal ? "text-white after:bg-white" : "text-[#252d3a]"
-                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}
-                >
+                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}>
                   <Link href="/re-sell">
                     <a>Re-sell</a>
                   </Link>
                 </li>
+                {department?.map((el, index) => (
+                  <li
+                    key={index}
+                    className={`${
+                      normal ? "text-white after:bg-white" : "text-[#252d3a]"
+                    } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}>
+                    <Link href={"/market/" + el._id}>
+                      <a>{el.name}</a>
+                    </Link>
+                  </li>
+                ))}
                 <li
                   className={`${
                     normal ? "text-white after:bg-white" : "text-[#252d3a]"
-                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}
-                >
-                  <Link href="/market/men">
-                    <a className="">Men</a>
-                  </Link>
-                </li>
-                <li
-                  className={`${
-                    normal ? "text-white after:bg-white" : "text-[#252d3a]"
-                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}
-                >
-                  <Link href="/market/women">
-                    <a className="">Women</a>
-                  </Link>
-                </li>
-                <li
-                  className={`${
-                    normal ? "text-white after:bg-white" : "text-[#252d3a]"
-                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}
-                >
+                  } px-5 py-2 text-xl font-bold uppercase cursor-pointer relative nav-list`}>
                   <Link href="/market/all">
                     <a>All</a>
                   </Link>
@@ -118,24 +114,21 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
                   <a
                     className={`${
                       normal ? "text-white" : ""
-                    } text-3xl cursor-pointer`}
-                  >
+                    } text-3xl cursor-pointer`}>
                     <BsFillPersonFill />
                   </a>
                 </Link>
                 <span
                   className={`${
                     normal ? "text-white" : ""
-                  } text-3xl cursor-pointer`}
-                >
+                  } text-3xl cursor-pointer`}>
                   <AiOutlineSearch />
                 </span>
                 <Link href="/wishlist">
                   <a
                     className={`${
                       normal ? "text-white" : ""
-                    } text-3xl cursor-pointer`}
-                  >
+                    } text-3xl cursor-pointer`}>
                     <AiOutlineHeart />
                   </a>
                 </Link>
@@ -144,15 +137,13 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
                 <span
                   className={`${
                     normal ? "text-white" : ""
-                  } text-2xl cursor-pointer`}
-                >
+                  } text-2xl cursor-pointer`}>
                   <AiOutlineSearch />
                 </span>
                 <span
                   className={`${
                     normal ? "text-white" : ""
-                  } text-2xl cursor-pointer`}
-                >
+                  } text-2xl cursor-pointer`}>
                   <AiOutlineShoppingCart />
                 </span>
               </div>
@@ -167,8 +158,7 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
         <div
           className={`${fixed ? "extra-nav--opening" : ""} ${
             extraNavBg ? extraNavBg : "bg-[#eef1f4]"
-          } md:hidden py-4 z-30`}
-        >
+          } md:hidden py-4 z-30`}>
           <Container>
             <ul className="flex justify-between">
               <li className="">
@@ -196,20 +186,17 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
         className={`${
           menuOpened ? "opacity-1 visible" : "opacity-0 invisible"
         } fixed left-0 top-0 w-full h-full bg-[rgba(255,255,255,.5)] z-10 transition-[.3s]`}
-        onClick={() => setMenuOpened(false)}
-      ></div>
+        onClick={() => setMenuOpened(false)}></div>
       <div
         className={`${
           menuOpened ? "menu--opened" : "menu"
-        } transition-500 w-[350px] max-w-[95%] bg-white h-screen fixed top-0 left-0 z-30`}
-      >
+        } transition-500 w-[350px] max-w-[95%] bg-white h-screen fixed top-0 left-0 z-30`}>
         <div className="flex flex-col">
           <div className="px-3 h-[70px]">
             <div className="border-b h-full py-2 flex justify-end items-center">
               <span
                 className="text-3xl cursor-pointer"
-                onClick={() => setMenuOpened(false)}
-              >
+                onClick={() => setMenuOpened(false)}>
                 <MdClose />
               </span>
             </div>
@@ -228,16 +215,14 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
                   </a>
                   <span
                     className="text-xl cursor-pointer border-l px-4"
-                    onClick={() => setExtraMenuOpened(!extraMenuOpened)}
-                  >
+                    onClick={() => setExtraMenuOpened(!extraMenuOpened)}>
                     <IoIosArrowDown />
                   </span>
                 </div>
                 <div
                   className={`${
                     extraMenuOpened ? "extra-menu--open" : "extra-menu"
-                  } overflow-hidden relative after:top-0 after:absolute after:h-full after:left-5 after:border-l after:border-black`}
-                >
+                  } overflow-hidden relative after:top-0 after:absolute after:h-full after:left-5 after:border-l after:border-black`}>
                   <ul>
                     <li>
                       <a className="pl-[35px] font-[400] text-[#252d3a] py-2 pr-[25px] block text-[14px] tracking-[.025em] leading-[1.6]">

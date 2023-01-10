@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import { fetGetProducts } from "../api/product";
+import { fetGetProducts, fetGetOneProduct } from "../api/product";
 
-const useGetProducst = () => {
+const useGetProducts = () => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
-  const [options, setOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [departmentOptions, setDepartmentOptions] = useState({});
+  const [sortType, setSortType] = useState(0);
 
-  const getProducts = (options) => {
+  const getProducts = (categoryOptions, departmentOptions, sortType) => {
     setLoading(true);
-    fetGetProducts({ categories: options })
+    fetGetProducts({
+      categoryOptions: categoryOptions,
+      departmentOptions: departmentOptions,
+      type: sortType,
+    })
       .then((result) => {
         setLoading(false);
         if (!result.success) {
@@ -22,19 +28,28 @@ const useGetProducst = () => {
       });
   };
 
-  useEffect(() => {
-    getProducts(options);
-  }, [options]);
-
-  const updateFilter = (type, categoryId) => {
-    if (type === "add") {
-      setOptions((prev) => [...prev, categoryId]);
+  const updateFilter = (type, categoryId, parentTitle) => {
+    if (parentTitle === "Department") {
+      if (categoryId === "all") setDepartmentOptions(null);
+      else setDepartmentOptions(categoryId);
     } else {
-      setOptions((prev) => prev.filter((el) => el !== categoryId));
+      if (type === "add") {
+        setCategoryOptions((prev) => [...prev, categoryId]);
+      } else {
+        setCategoryOptions((prev) => prev.filter((el) => el !== categoryId));
+      }
     }
   };
 
-  return { loading, product, updateFilter };
+  const updateSort = (type) => {
+    setSortType(type);
+  };
+
+  useEffect(() => {
+    getProducts(categoryOptions, departmentOptions, sortType);
+  }, [categoryOptions, departmentOptions, sortType]);
+
+  return { loading, product, updateFilter, updateSort };
 };
 
-export default useGetProducst;
+export default useGetProducts;

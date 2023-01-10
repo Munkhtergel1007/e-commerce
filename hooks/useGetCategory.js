@@ -6,7 +6,7 @@ const useGetCategories = () => {
   const [data, setData] = useState([]);
 
   const getCategories = () => {
-    setLoading(false);
+    setLoading(true);
     fetGetCategories().then((result) => {
       setLoading(false);
       if (!result.success) {

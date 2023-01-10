@@ -10,21 +10,37 @@ import { ClothCard } from "../../Components/clothCard";
 import { SortButton } from "../../Components/sortButton";
 import { SideFilterHeader } from "../../Components/sideFilterHeader";
 
-import useGetProducst from "../../hooks/useGetProducst";
 import useGetCategories from "../../hooks/useGetCategory";
+import { Loading } from "../../Components/Loading";
+import useGetProducts from "../../hooks/useGetProducst";
+import { useEffect } from "react";
 
 const Gender = () => {
   const router = useRouter();
   const { type } = router.query;
-  const { loading, product, updateFilter } = useGetProducst();
+  const { loading, product, updateFilter, updateSort } = useGetProducts();
   const { data: categories, loading: catLoading } = useGetCategories();
+  const staticData = [
+    {
+      children: categories,
+      name: "Category",
+    },
+  ];
+  useEffect(() => {
+    updateFilter("add", type, "Department");
+  }, [type]);
 
   return (
     <>
+      {(loading || catLoading) && <Loading />}
       <Head>
         <title>
           Thrifter{" "}
-          {type === "all" ? "All" : type === "women" ? "Women`s" : "Men`s"}{" "}
+          {type === "all"
+            ? "All"
+            : type === "63b791f45f73b1c7316db542"
+            ? "Women`s"
+            : "Men`s"}{" "}
           Clothes
         </title>
       </Head>
@@ -33,14 +49,16 @@ const Gender = () => {
         <div className="mb-10">
           <div
             className={`bg-[#F2E7E2] relative pt-[30px] pb-[45px] ${
-              type === "women" ? "after:bg-[#AF5731]" : "after:bg-[#3B4859]"
+              type === "63b791f45f73b1c7316db542"
+                ? "after:bg-[#AF5731]"
+                : "after:bg-[#3B4859]"
             }  after:absolute after:w-[110%] after:h-[130%] after:left-[-5%] after:top-[-30%] after:rotate-[-1deg]`}>
             <Container>
               <div className="relative z-10">
                 <h1 className="tracking-[.02em] font-bold md:text-[35px] leading-[40px] text-white text-center">
                   {type === "all"
                     ? "Boutique + All New In"
-                    : type === "women"
+                    : type === "63b791f45f73b1c7316db542"
                     ? "Boutique + Women`s New In"
                     : "Boutique + Men`s New In"}
                 </h1>
@@ -52,17 +70,14 @@ const Gender = () => {
           <div className="mt-7"></div>
           <div className="flex gap-4">
             <div className="hidden md:block pt-[1em] w-3/12">
-              {catLoading && <>Loading...</>}
-              {categories?.map((cat, index) => {
-                return (
-                  <SideFilterHeader
-                    key={index}
-                    title={cat?.name}
-                    childrenCategories={cat?.childrenCategories ?? []}
-                    updateFilter={updateFilter}
-                  />
-                );
-              })}
+              {staticData?.map((el, index) => (
+                <SideFilterHeader
+                  key={index}
+                  title={el?.name}
+                  children={el?.children}
+                  updateFilter={updateFilter}
+                />
+              ))}
             </div>
             <div className="w-full">
               <div className="after:flex after:h-[5px] after:w-full after:border-b after:border-[#ccc] px-5 md:px-0">
@@ -71,7 +86,7 @@ const Gender = () => {
                   <span className="text-[.8em] font-medium hidden md:block">
                     Sort by:
                   </span>
-                  <SortButton />
+                  <SortButton updateSort={updateSort} />
                 </div>
                 <div>
                   <span className="uppercase text-left text-[#252d3a] font-medium text-[13.6px] md:text-[16px] md:leading-[1.6]">
@@ -80,14 +95,14 @@ const Gender = () => {
                 </div>
               </div>
               <div className="flex flex-wrap mt-0 md:mt-7 mb-16">
-                {loading && <>Loading...</>}
                 {product?.map((data, index) => (
                   <ClothCard
                     img={data.img}
                     title={data.title}
                     price={data.price}
-                    // href={data.href}
+                    href={"/products/" + data._id}
                     key={index}
+                    data={data}
                   />
                 ))}
               </div>

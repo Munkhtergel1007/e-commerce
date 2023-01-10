@@ -1,14 +1,21 @@
 import { useState } from "react";
 
-export const Checkbox = ({ title, children, updateFilter, categoryId }) => {
+export const Checkbox = ({
+  title,
+  children,
+  updateFilter,
+  categoryId,
+  parentTitle,
+  type,
+}) => {
   const [isChecked, setIsChecked] = useState(false);
-
+  console.log(type);
   const handleCheck = (e) => {
     if (e.target.checked) {
-      updateFilter("add", categoryId);
+      updateFilter("add", categoryId, parentTitle);
       setIsChecked(true);
     } else {
-      updateFilter("remove", categoryId);
+      updateFilter("remove", categoryId, parentTitle);
       setIsChecked(false);
     }
   };

@@ -18,20 +18,19 @@ export const MySwiper = ({ data }) => {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      className="h-full h-full"
-    >
-      {data.map((data, index) => (
-        <SwiperSlide key={index}>
-          <Image
-            src={data.img}
-            key={index}
-            alt=""
-            width="100%"
-            height="100%"
-            layout="responsive"
-          />
-        </SwiperSlide>
-      ))}
+      className="h-full h-full">
+      {/* {data.map((data, index) => ( */}
+      <SwiperSlide>
+        <Image
+          src={data}
+          // key={index}
+          alt=""
+          width="100%"
+          height="100%"
+          layout="responsive"
+        />
+      </SwiperSlide>
+      {/* ))} */}
     </Swiper>
   );
 };

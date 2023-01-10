@@ -1,12 +1,48 @@
 import { AiFillCaretDown, AiOutlineCheck } from "react-icons/ai";
 import Link from "next/link";
 import Button from "./button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useGetProducst from "../hooks/useGetProducst";
 
-export const SortButton = () => {
+export const SortButton = ({ updateSort }) => {
   const [isSortClicked, setIsSortClicked] = useState(false);
+  const [check, setCheck] = useState(0);
+  const sort = 0;
 
-  const dropDownHandler = (type) => {};
+  useEffect(() => {
+    fixMargin(["high", "low"], ["normal"]);
+  }, []);
+
+  const sortHandler = (e) => {
+    sort = 0;
+    setCheck(0);
+    if (e === "Price:Low to High") {
+      fixMargin(["normal", "low"], ["high"]);
+      sort = 1;
+      setCheck(1);
+    }
+    if (e === "Price:High to Low") {
+      fixMargin(["normal", "high"], ["low"]);
+      sort = -1;
+      setCheck(2);
+    }
+    if (e === "Best Match") {
+      fixMargin(["high", "low"], ["normal"]);
+      sort = 0;
+      setCheck(0);
+    }
+    updateSort(sort);
+  };
+  const fixMargin = (addIds, removeIds) => {
+    addIds.forEach((el) => {
+      let temp = document.getElementById(el);
+      temp.classList.add("pl-5");
+    });
+    removeIds.forEach((el) => {
+      let temp = document.getElementById(el);
+      temp.classList.remove("pl-5");
+    });
+  };
 
   return (
     <div className="relative w-full md:w-auto">
@@ -21,40 +57,43 @@ export const SortButton = () => {
           isSortClicked ? "block" : "hidden"
         } absolute top-[100%] w-full left-0 z-20 bg-white py-1 shadow-sm border border-[rgba(0,0,0,.15)] rounded-md`}>
         <li className="hover:bg-[#eaeaea]">
-          <Link href="/">
-            <a className="text-[12.8px] py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1">
+          <span
+            id="normal"
+            onClick={(e) => sortHandler(e.target?.innerText)}
+            className="text-[12.8px] py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1 cursor-pointer">
+            {check === 0 ? (
               <span className="text-md ml-1">
                 <AiOutlineCheck />
               </span>
-              Best Match
-            </a>
-          </Link>
+            ) : null}
+            Best Match
+          </span>
         </li>
         <li className="hover:bg-[#eaeaea]">
-          <a
-            onClick={() => console.log("hi")}
-            className="text-[12.8px] pl-5 py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1">
-            {/* <span className="text-md ml-1">
+          <span
+            id="high"
+            onClick={(e) => sortHandler(e.target?.innerText)}
+            className="text-[12.8px] py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1 cursor-pointer">
+            {check === 1 ? (
+              <span className="text-md ml-1">
                 <AiOutlineCheck />
-              </span> */}
+              </span>
+            ) : null}
             Price:Low to High
-          </a>
+          </span>
         </li>
         <li className="hover:bg-[#eaeaea]">
-          <a className="text-[12.8px] pl-5 py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1">
-            {/* <span className="text-md ml-1">
+          <span
+            id="low"
+            onClick={(e) => sortHandler(e.target?.innerText)}
+            className="text-[12.8px] py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1 cursor-pointer">
+            {check === 2 ? (
+              <span className="text-md ml-1">
                 <AiOutlineCheck />
-              </span> */}
+              </span>
+            ) : null}
             Price:High to Low
-          </a>
-        </li>
-        <li className="hover:bg-[#eaeaea]">
-          <a className="text-[12.8px] pl-5 py-1 pr-5 font-[400] text-[#252d3a] leading-[1.4] flex justify-start items-center gap-1">
-            {/* <span className="text-md ml-1">
-                <AiOutlineCheck />
-              </span> */}
-            Newest Arrivals
-          </a>
+          </span>
         </li>
       </ul>
     </div>
