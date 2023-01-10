@@ -5,9 +5,10 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import API from "../api";
 import { priceFormat } from "../common/util";
 import jwt from "jwt-decode";
+import { Loading } from "./Loading";
 
-export const ClothCard = ({ img, title, price, href, data }) => {
-  const [isHeartCLicked, setIsHeartCLicked] = useState(false);
+export const ClothCard = ({ img, title, price, href, data, checked, loading, catLoading }) => {
+  const [isHeartCLicked, setIsHeartCLicked] = useState(checked);
   const [isMouseEnter, setIsMouseEnter] = useState(false);
 
   const createWishList = () => {
@@ -28,6 +29,8 @@ export const ClothCard = ({ img, title, price, href, data }) => {
   }
  
   return (
+    <>
+    {(loading || catLoading) ? <Loading /> : null}
     <div
       className="relative my-[15px] mx-[.99%] border-2 border-[#eef1f4] rounded-[12px] inline overflow-hidden w-[48%] h-auto md:h-[440px] md:w-[31.3%] transition-[.5s] hover:shadow-xl"
       onMouseEnter={() => setIsMouseEnter(true)}
@@ -73,5 +76,6 @@ export const ClothCard = ({ img, title, price, href, data }) => {
         </button>
       </div>
     </div>
+    </>
   );
 };

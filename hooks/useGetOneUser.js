@@ -10,7 +10,7 @@ const useGetOneUser = () => {
 		if (id) {
 			setLoading(true);
 			fetGetOneUser(id).then((result) => {
-				setUser(result.data)
+				setUser(result.data);
 				setLoading(false);
 				if (!result.success) {
 					setLoading(false);

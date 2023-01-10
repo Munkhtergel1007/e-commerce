@@ -5,7 +5,13 @@ import { Footer } from "./footer";
 import Header from "./header";
 import { TextInput } from "./textInput";
 
-export default function Register({ firstName, lastName, registerEmail, registerPassword, doSubmit }) {
+export default function Register({
+	firstName,
+	lastName,
+	registerEmail,
+	registerPassword,
+	doSubmit,
+}) {
 	return (
 		<>
 			<Head>

@@ -12,8 +12,8 @@ export default function Login() {
 	const { loading, user, updateId } = useGetOneUser();
 	useEffect(() => {
 		let token = localStorage.getItem("token");
-    	if (token) updateId(jwt(token).id);
-	},[])
+		if (token) updateId(jwt(token).id);
+	}, []);
 
 	const router = useRouter();
 	const account = router.query.account;
@@ -61,7 +61,6 @@ export default function Login() {
 				password: registerPassword.current.value,
 			};
 		}
-
 		await API.post(account === "register" ? "/register" : "/login", object)
 			.then((result) => {
 				localStorage.setItem("token", result?.data?.token);
@@ -73,7 +72,7 @@ export default function Login() {
 	};
 
 	return (
-		<>	
+		<>
 			{account === "login" ? (
 				<SignIn
 					loginEmail={loginEmail}
@@ -86,11 +85,11 @@ export default function Login() {
 					firstName={firstName}
 					lastName={lastName}
 					registerEmail={registerEmail}
+					registerPassword={registerPassword}
+					doSubmit={doSubmit}
 				/>
 			) : null}
-			{account === "profile" ? (
-				<Profile user={user} loading={loading} />
-			) : null}
+			{account === "profile" ? <Profile user={user} loading={loading} /> : null}
 		</>
 	);
 }
