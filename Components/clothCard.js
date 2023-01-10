@@ -1,14 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import API from "../api";
 import { priceFormat } from "../common/util";
-import { FavContext } from "../context/FavContext";
+import jwt from "jwt-decode";
 
 export const ClothCard = ({ img, title, price, href, data }) => {
   const [isHeartCLicked, setIsHeartCLicked] = useState(false);
   const [isMouseEnter, setIsMouseEnter] = useState(false);
-  const favourite = useContext(FavContext);
+
+  const createWishList = () => {
+    if(!window.localStorage.getItem("token")) window.location.href = "/account/login";  
+    else {
+      if(!isHeartCLicked) {
+        API.post("/createWishList", {product: data._id, user: jwt(window.localStorage.getItem("token")).id})
+          .then((result) => {
+            console.log(result)
+          })
+      } else {
+        API.post("/deleteWishList", {product: data._id, user: jwt(window.localStorage.getItem("token")).id})
+        .then((result) => {
+          console.log(result)
+        })
+      }
+    }
+  }
+ 
   return (
     <div
       className="relative my-[15px] mx-[.99%] border-2 border-[#eef1f4] rounded-[12px] inline overflow-hidden w-[48%] h-auto md:h-[440px] md:w-[31.3%] transition-[.5s] hover:shadow-xl"
@@ -36,20 +54,9 @@ export const ClothCard = ({ img, title, price, href, data }) => {
         </div>
         <button
           className="absolute top-1 right-1 text-xl p-5 cursor-pointer flex justify-center items-center before:absolute before:top-[11px] before:right-[12px] before:rounded-full before:w-[calc(100%-24px)] before:h-[calc(100%-24px)] before:bg-[#f2e7e2] before:z-0"
-          onClick={() => setIsHeartCLicked(!isHeartCLicked)}>
+          onClick={() => {setIsHeartCLicked(!isHeartCLicked); createWishList()}}>
           <span
-            className="relative z-10 text-[#d76a3b]"
-            onClick={() => {
-              favourite.setFavContext((product) => {
-                let idx = -1;
-                product?.forEach((el, index) => {
-                  if (el._id === data._id) idx = index;
-                });
-                console.log(idx, product, data);
-                if (idx === -1) return [...(product || []), data];
-              });
-              console.log(favourite.favContext);
-            }}>
+            className="relative z-10 text-[#d76a3b]">
             <AiFillHeart className={`${isHeartCLicked ? "block" : "hidden"}`} />
             <AiOutlineHeart
               className={`${isHeartCLicked ? "hidden" : "block"}`}

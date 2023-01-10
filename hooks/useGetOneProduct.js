@@ -23,8 +23,6 @@ const useGetOneProduct = () => {
   };
 
   useEffect(() => {
-    console.log(id);
-    getOneProduct(id);
   }, [id]);
 
   return { loading, data, updateId };

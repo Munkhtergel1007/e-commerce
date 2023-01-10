@@ -9,7 +9,6 @@ export const Checkbox = ({
   type,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
-  console.log(type);
   const handleCheck = (e) => {
     if (e.target.checked) {
       updateFilter("add", categoryId, parentTitle);

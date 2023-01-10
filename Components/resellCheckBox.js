@@ -8,7 +8,6 @@ export const ReSellCheckBox = ({
   innerRef,
 }) => {
   const handleCheck = (e) => {
-    console.log(e.target.checked);
     // if (e.target.checked) {
     //   updateFilter("add", categoryId, parentTitle);
     // } else {

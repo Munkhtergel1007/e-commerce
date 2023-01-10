@@ -4,19 +4,22 @@ import Link from "next/link";
 import Container from "../Components/container";
 import Header from "../Components/header";
 import Image from "next/image";
-import { useContext } from "react";
-import { FavContext } from "../context/FavContext";
+import useGetWishList from "../hooks/getWishList";
+import { Loading } from "../Components/Loading";
 
 export default function WishList() {
-  const favourite = useContext(FavContext);
-  console.log(favourite);
+  const {loading, data} = useGetWishList();
+
+  console.log(data)
+
   return (
-    <>
+    <>  
+      {loading ? <Loading /> : null}
       <Head>
         <title>Wishlist - Thrift</title>
       </Head>
       <Header className="shadow-sm" noExtraNav />
-      <div className="mt-0 md:mt-[70px]"></div>
+      <div className="mt-0 md:mt-[70px]"></div>   
       <main>
         <div className="pt-16 pb-5 bg-[#f2e7e2]">
           <Container>
@@ -28,42 +31,40 @@ export default function WishList() {
 
             {/* If wishlist is not empty [s] */}
             <div className="mt-[21px]">
-              <div className="max-w-[900px] mx-auto w-full flex flex-wrap">
-                <Link href="/">
-                  <a className="wishlist-card flex flex-col justify-between cursor-pointer bg-white relative w-[28.8%] rounded-xl">
-                    <span className="absolute right-2 top-2 w-[25px] h-[25px] flex justify-center items-center text-[grey] hover:text-black transition-[.3s] z-10">
-                      <CgClose />
-                    </span>
-                    <div className="h-[180px] rounded-xl overflow-hidden wishlist-img-container">
-                      <Image
-                        src="https://cdn.shopify.com/s/files/1/1754/6207/products/19286-129163-02.jpg?v=1652494075"
-                        alt=""
-                        width="100%"
-                        height="180px"
-                        layout="fill"
-                        className="z-0 rounded-xl"
-                      />
-                    </div>
-                    <div className="relative z-10 bg-white rounded-b-xl">
-                      <div className="mx-[15px] mt-[15px]">
-                        <h1 className="font-[500] text-[14px] leading-[18px] text-center tracking-[.02em] text-[#262e39]">
-                          Richard James Men`s Two Piece Suit
-                        </h1>
+              {
+                data.map((el, index) => (
+                    <a className="wishlist-card flex flex-col justify-between cursor-pointer bg-white relative w-[28.8%] rounded-xl">
+                      <div className="h-[180px] rounded-xl overflow-hidden wishlist-img-container">
+                        <Image
+                          src="https://cdn.shopify.com/s/files/1/1754/6207/products/19286-129163-02.jpg?v=1652494075"
+                          alt=""
+                          width="100%"
+                          height="180px"
+                          layout="fill"
+                          className="z-0 rounded-xl"
+                        />
                       </div>
-                      <div className="text-[#333] font-bold text-[18px] flex items-center justify-center flex-wrap pt-[5px] px-[15px]">
-                        <span className="inline-block font-[500] text-[14px] leading-[18px] text-center tracking-[.02em] text-[#262e39]">
-                          $170.00
-                        </span>
+                      <div className="relative z-10 bg-white rounded-b-xl">
+                        <div className="mx-[15px] mt-[15px]">
+                          <h1 className="font-[500] text-[14px] leading-[18px] text-center tracking-[.02em] text-[#262e39]">
+                            Richard James Men`s Two Piece Suit
+                          </h1>
+                        </div>
+                        <div className="text-[#333] font-bold text-[18px] flex items-center justify-center flex-wrap pt-[5px] px-[15px]">
+                          <span className="inline-block font-[500] text-[14px] leading-[18px] text-center tracking-[.02em] text-[#262e39]">
+                            $170.00
+                          </span>
+                        </div>
+                        <div className="pt-[40px] px-[15px] pb-[15px] w-full rounded-b-xl">
+                          <button className="w-full p-[6px] uppercase text-center bg-[#d76a3b] font-bold h-[47px] text-[12px] md:text-[16px] rounded-md text-white">
+                            Add to card
+                          </button>
+                        </div>
                       </div>
-                      <div className="pt-[40px] px-[15px] pb-[15px] w-full rounded-b-xl">
-                        <button className="w-full p-[6px] uppercase text-center bg-[#d76a3b] font-bold h-[47px] text-[12px] md:text-[16px] rounded-md text-white">
-                          Add to card
-                        </button>
-                      </div>
-                    </div>
-                  </a>
-                </Link>
-              </div>
+                    </a>
+                ))
+              }
+
             </div>
             {/* If wishlist is not empty [s] */}
 

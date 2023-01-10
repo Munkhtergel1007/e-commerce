@@ -3,8 +3,6 @@ import { toast } from "react-toastify";
 const requireValueNow = (ref, type = "text") => {
   let isEmpty = false;
 
-  console.log(ref);
-
   switch (type) {
     case "text":
       if (ref.current.value === "" || ref.current.value === null) {

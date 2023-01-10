@@ -14,7 +14,6 @@ import whiteLogo from "../public/img/Thrift_Logo_Boutique_white.svg";
 import Container from "./container";
 import Link from "next/link";
 import useGetDepartment from "../hooks/useDepartment";
-import useGetProducst from "../hooks/useGetProducst";
 import { Loading } from "./Loading";
 
 export default function Header({ normal, className, noExtraNav, extraNavBg }) {
@@ -22,6 +21,11 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [menuOpened, setMenuOpened] = useState(false);
   const [extraMenuOpened, setExtraMenuOpened] = useState(false);
+  const [path, setPath] = useState("/")
+
+  useEffect(() => {
+    window.localStorage.getItem("token") ? setPath("/account/profile") : setPath("/account/login")
+  },[])
 
   const { data: department, loading: depLoading } = useGetDepartment();
 
@@ -110,7 +114,7 @@ export default function Header({ normal, className, noExtraNav, extraNavBg }) {
             </div>
             <div>
               <div className="gap-4 hidden md:flex">
-                <Link href="/account/login">
+                <Link href={path}>
                   <a
                     className={`${
                       normal ? "text-white" : ""
