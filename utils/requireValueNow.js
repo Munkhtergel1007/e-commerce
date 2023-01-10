@@ -20,6 +20,16 @@ const requireValueNow = (ref, type = "text") => {
         isEmpty = true;
       }
       break;
+    case "file":
+      if (
+        ref.current.files[0].value === "" ||
+        ref.current.files[0].value === null
+      ) {
+        ref.current.focus();
+        toast.warning("Та " + ref.current.name + "-ээ оруулна уу.");
+        isEmpty = true;
+      }
+      break;
     default:
       break;
   }

@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   const [favContext, setFavContext] = useState([]);
   return (
     <FavContext.Provider value={{ favContext, setFavContext }}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </FavContext.Provider>
   );
 }

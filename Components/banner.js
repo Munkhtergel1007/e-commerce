@@ -31,8 +31,7 @@ export default function Banner() {
             ]}
           />
           <div className="flex gap-2 mt-8">
-            {/* <Button title="shop women" href="/market/women" /> */}
-            <Button title="shop women" normal onclick={checkAuth} />
+            <Button title="shop women" href="/market/women" />
             <Button title="shop men" href="/market/men" />
           </div>
         </div>
