@@ -12,13 +12,16 @@
     "@agney/react-loading": "^0.1.2",
     "axios": "^1.2.2",
     "firebase": "^9.15.0",
+    "jwt-decode": "^3.1.2",
     "next": "12.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-fontawesome": "^1.7.1",
     "react-icons": "^4.4.0",
     "react-id-swiper": "^4.0.0",
-    "swiper": "^8.3.1"
+    "react-toastify": "^9.1.1",
+    "swiper": "^8.3.1",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
