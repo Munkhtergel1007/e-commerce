@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { fetGetCategories } from "../api/category";
+import { fetGetAllProducts } from "../api/product";
 
-const useGetCategories = () => {
+const useGetAllProducts = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
 
-	const getCategories = () => {
+	const getAllProducts = () => {
 		setLoading(true);
-		fetGetCategories().then((result) => {
+		fetGetAllProducts().then((result) => {
 			setLoading(false);
 			if (!result.success) {
 				alert("Aldaa garlaa");
@@ -18,11 +18,10 @@ const useGetCategories = () => {
 	};
 
 	useEffect(() => {
-		console.log("hi");
-		getCategories();
+		getAllProducts();
 	}, []);
 
 	return { loading, data };
 };
 
-export default useGetCategories;
+export default useGetAllProducts;

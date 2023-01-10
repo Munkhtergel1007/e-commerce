@@ -66,9 +66,7 @@ export default function Login() {
 				localStorage.setItem("token", result?.data?.token);
 				window.location.href = "/market/all";
 			})
-			.catch((err) => {
-				setUser(null);
-			});
+			.catch((err) => {});
 	};
 
 	return (

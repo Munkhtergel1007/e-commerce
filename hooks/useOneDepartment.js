@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+import { fetGetOneDeparment } from "../api/department";
 import { fetGetOneProduct } from "../api/product";
 
-const useGetOneProduct = () => {
+const useGetOneDepartment = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [id, setId] = useState();
 
-	const getOneProduct = (id) => {
+	const getOneDeparment = (id) => {
 		setLoading(true);
-		fetGetOneProduct(id).then((result) => {
+		fetGetOneDeparment(id).then((result) => {
 			setLoading(false);
 			if (!result.success) {
 				alert("Aldaa garlaa");
@@ -23,10 +24,10 @@ const useGetOneProduct = () => {
 	};
 
 	useEffect(() => {
-		getOneProduct(id);
+		getOneDeparment(id);
 	}, [id]);
 
 	return { loading, data, updateId };
 };
 
-export default useGetOneProduct;
+export default useGetOneDepartment;

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { fetGetOneProduct } from "../api/product";
+import { fetGetOneCategory } from "../api/category";
 
-const useGetOneProduct = () => {
+const useGetOneCategory = () => {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState([]);
 	const [id, setId] = useState();
 
-	const getOneProduct = (id) => {
+	const getOneCategory = (id) => {
 		setLoading(true);
-		fetGetOneProduct(id).then((result) => {
+		fetGetOneCategory(id).then((result) => {
 			setLoading(false);
 			if (!result.success) {
 				alert("Aldaa garlaa");
@@ -23,10 +23,10 @@ const useGetOneProduct = () => {
 	};
 
 	useEffect(() => {
-		getOneProduct(id);
+		getOneCategory(id);
 	}, [id]);
 
 	return { loading, data, updateId };
 };
 
-export default useGetOneProduct;
+export default useGetOneCategory;
