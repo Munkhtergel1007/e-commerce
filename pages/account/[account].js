@@ -9,85 +9,94 @@ import useGetOneUser from "../../hooks/useGetOneUser";
 import jwt from "jwt-decode";
 
 export default function Login() {
-	const { loading, user, updateId } = useGetOneUser();
-	useEffect(() => {
-		let token = localStorage.getItem("token");
-		if (token) updateId(jwt(token).id);
-	}, []);
+  const { loading, user, updateId } = useGetOneUser();
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token) updateId(jwt(token).id);
+  }, []);
 
-	const router = useRouter();
-	const account = router.query.account;
+  const router = useRouter();
+  const account = router.query.account;
 
-	const loginEmail = useRef(null);
-	const loginPassword = useRef(null);
-	const registerEmail = useRef(null);
-	const registerPassword = useRef(null);
-	const firstName = useRef(null);
-	const lastName = useRef(null);
+  const loginEmail = useRef(null);
+  const loginPassword = useRef(null);
+  const registerEmail = useRef(null);
+  const registerPassword = useRef(null);
+  const firstName = useRef(null);
+  const lastName = useRef(null);
 
-	const doSubmit = async () => {
-		let object = {};
+  const doSubmit = async () => {
+    let object = {};
 
-		if (account === "login") {
-			if (requireValueNow(loginEmail, "email")) {
-				return;
-			}
-			if (requireValueNow(loginPassword)) {
-				return;
-			}
+    if (account === "login") {
+      if (requireValueNow(loginEmail, "email")) {
+        return;
+      }
+      if (requireValueNow(loginPassword)) {
+        return;
+      }
 
-			object = {
-				email: loginEmail.current.value,
-				password: loginPassword.current.value,
-			};
-		} else {
-			if (requireValueNow(firstName)) {
-				return;
-			}
-			if (requireValueNow(lastName)) {
-				return;
-			}
-			if (requireValueNow(registerEmail, "email")) {
-				return;
-			}
-			if (requireValueNow(registerPassword)) {
-				return;
-			}
+      object = {
+        email: loginEmail.current.value,
+        password: loginPassword.current.value,
+      };
+    } else {
+      if (requireValueNow(firstName)) {
+        return;
+      }
+      if (requireValueNow(lastName)) {
+        return;
+      }
+      if (requireValueNow(registerEmail, "email")) {
+        return;
+      }
+      if (requireValueNow(registerPassword)) {
+        return;
+      }
 
-			object = {
-				firstName: firstName.current.value,
-				lastName: lastName.current.value,
-				email: registerEmail.current.value,
-				password: registerPassword.current.value,
-			};
-		}
-		await API.post(account === "register" ? "/register" : "/login", object)
-			.then((result) => {
-				localStorage.setItem("token", result?.data?.token);
-				window.location.href = "/market/all";
-			})
-			.catch((err) => {});
-	};
+      object = {
+        firstName: firstName.current.value,
+        lastName: lastName.current.value,
+        email: registerEmail.current.value,
+        password: registerPassword.current.value,
+      };
+    }
+    await API.post(account === "register" ? "/register" : "/login", object)
+      .then((result) => {
+        localStorage.setItem("token", result?.data?.token);
+        API.post("/getOneUser", {
+          _id: jwt(result?.data?.token).id,
+        }).then((result) => {
+          if (result.status === 200) {
+            if (result.data.data.email === "admin@gmail.com")
+              window.location.href = "/mgr";
+            else window.location.href = "/market/all";
+            alert("Successfully Login");
+          }
+        });
+      })
+      .catch((err) => {});
+  };
 
-	return (
-		<>
-			{account === "login" ? (
-				<SignIn
-					loginEmail={loginEmail}
-					loginPassword={loginPassword}
-					doSubmit={doSubmit}
-				/>
-			) : null}
-			{account === "register" ? (
-				<Register
-					firstName={firstName}
-					lastName={lastName}
-					registerEmail={registerEmail}
-					registerPassword={registerPassword}
-					doSubmit={doSubmit}
-				/>
-			) : null}
-			{account === "profile" ? <Profile user={user} loading={loading} /> : null}
-		</>
-	);
+  return (
+    <>
+      {account === "login" ? (
+        <SignIn
+          loginEmail={loginEmail}
+          loginPassword={loginPassword}
+          doSubmit={doSubmit}
+        />
+      ) : null}
+      {account === "register" ? (
+        <Register
+          firstName={firstName}
+          lastName={lastName}
+          registerEmail={registerEmail}
+          registerPassword={registerPassword}
+          doSubmit={doSubmit}
+        />
+      ) : null}
+      {account === "profile" ? <Profile user={user} loading={loading} /> : null}
+    </>
+  );
 }
